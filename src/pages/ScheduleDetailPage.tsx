@@ -419,7 +419,8 @@ const ScheduleDetailPage: React.FC = () => {
 
   const handleGoHome = () => {
     setShowCompletionModal(false);
-    navigate("/dashboard");
+    navigate("/");
+    
   };
 
   return (
