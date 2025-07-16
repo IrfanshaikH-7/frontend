@@ -10,6 +10,8 @@ import clock from './icons/clock.svg'
 import clock_white from './icons/clock_white.svg'
 
 import alarm from './icons/alarm.svg'
+import email from './icons/email.svg'
+import phone from './icons/phone.svg'
 
 export {
     // images
@@ -23,6 +25,8 @@ export {
     calendar,
     clock,
     clock_white,
-    alarm
+    alarm,
+    phone,
+    email,
 
 }

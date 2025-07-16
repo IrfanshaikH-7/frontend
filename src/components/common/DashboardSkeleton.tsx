@@ -7,7 +7,7 @@ const DashboardSkeleton: React.FC = () => {
   return (
     <>
       {/* Title Skeleton */}
-      <div className="mb-4">
+      <div className="mb-4 mt-4">
         <Skeleton width={120} height={24} />
       </div>
 

@@ -89,7 +89,7 @@ const TaskList: React.FC<TaskListProps> = ({
 
   return (
     <div className="mt-[24px]">
-      <h3 className="font-roboto font-semibold text-task-title leading-task-title text-task-text mb-4">
+      <h3 className="font-roboto font-semibold text-[20px] mb-4">
         Tasks:
       </h3>
       {tasks.length === 0 ? (
@@ -107,10 +107,10 @@ const TaskList: React.FC<TaskListProps> = ({
               }}
             >
               <div className="mb-2">
-                <h4 className="font-roboto font-semibold text-task-title leading-task-title text-task-text">
+                <h4 className="font-roboto text-[18px] font-semibold text-tertiary">
                   {task.title}
                 </h4>
-                <p className="font-roboto font-normal text-description leading-description text-task-text mt-2">
+                <p className="font-roboto font-normal mt-2">
                   {task.description}
                 </p>
               </div>

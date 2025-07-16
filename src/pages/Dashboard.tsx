@@ -130,7 +130,9 @@ const Dashboard: React.FC = () => {
         </span>
       </MobileHeader>
       {/* timer section  */}
-      <section className="flex flex-col item-center  rounded-[20px] p-5 bg-tertiary my-2">
+      {
+        activeSchedule && (
+          <section className="flex flex-col item-center  rounded-[20px] p-5 bg-tertiary my-2">
         <div>
           {
             activeSchedule?.CheckinTime &&
@@ -186,6 +188,8 @@ const Dashboard: React.FC = () => {
             Clock-Out</div>
         </Button>
       </section>
+        )
+      }
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-7 sm:mt-2">
         {dashboardStats.map((stat, index) => (

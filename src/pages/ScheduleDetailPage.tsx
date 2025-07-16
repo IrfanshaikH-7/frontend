@@ -25,6 +25,7 @@ import DurationTimer from "../components/common/DurationTimer";
 import { useCurrSchedule } from "../context/currSchedule";
 import { formatAddress } from "../utils/formatadd";
 import { formatTimeRange } from "../utils/formatTime";
+import { email, phone } from "../assets";
 
 const ScheduleDetailPage: React.FC = () => {
   const { setCurrScheduleId } = useCurrSchedule();
@@ -61,7 +62,8 @@ const ScheduleDetailPage: React.FC = () => {
     }) => checkInSchedule(scheduleId, { location }),
     onSuccess: () => {
       setActionSuccess("Successfully checked in!");
-      queryClient.invalidateQueries({ queryKey: ["schedule", scheduleId] });
+      queryClient.invalidateQueries({ queryKey: ["schedules", "ecd75215-960b-484b-a184-736f8fca4e59"] });
+
       setTimeout(() => setActionSuccess(null), 3000);
     },
     onError: (error: Error) => {
@@ -208,7 +210,6 @@ const ScheduleDetailPage: React.FC = () => {
         showToast("Successfully checked in!", "success");
         // Revalidate the schedules query
         setCurrScheduleId(scheduleId)
-        queryClient.invalidateQueries({ queryKey: ["schedules", "ecd75215-960b-484b-a184-736f8fca4e59"] });
       } catch (error) {
         showToast(`Check-in failed: ${(error as Error).message}`, "error");
         setIsActionLoading(false);
@@ -290,7 +291,7 @@ const ScheduleDetailPage: React.FC = () => {
       feedback?: string;
     }) => updateTask(taskId, { status, done, feedback }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["schedule", scheduleId] });
+      queryClient.invalidateQueries({ queryKey: ["schedules", "ecd75215-960b-484b-a184-736f8fca4e59"] });
     },
     onError: (error: Error) => {
       setActionError(`Failed to update task: ${error.message}`);
@@ -462,8 +463,6 @@ const ScheduleDetailPage: React.FC = () => {
             {schedule?.CheckinTime && <DurationTimer
             className="font-semibold text-[#1D1D1BDE] text-[32px] mb-5 text-center"
             checkinTime={schedule.CheckinTime} />}
-
- 
               <LazyScheduleCard
                 id={schedule.ID}
                 status={visitStatus}
@@ -482,6 +481,30 @@ const ScheduleDetailPage: React.FC = () => {
                 className="mb-6"
               />
             </ErrorBoundary>
+
+            <section className="flex flex-col gap-6">
+               <div className="flex flex-col">
+               <h3 className="text-[20px] font-semibold">CLient Contant:</h3>
+                <div className="space-y-2 mt-2 text-sm sm:text-base">
+                  <p className="flex gap-2 items-center">
+                    <img src={email} alt="email" className="h-7 w-7" />
+                    <span className="">{schedule.ClientInfo?.Email}</span>
+                  </p>
+                  <p className="flex gap-2 items-center">
+                    <img src={phone} alt="email" className="h-7 w-7" />
+                    <span className="">{"+44 1232 212 3233"}</span>
+                  </p>
+                </div>
+               </div>
+               <div className="flex flex-col">
+               <h3 className="text-[20px] font-semibold">Address:</h3>
+                <div className="space-y-2 mt-2 text-sm sm:text-base">
+                    <span className="block">{schedule.ClientInfo?.Location?.house_number} {schedule.ClientInfo?.Location?.street}</span>
+                    <span className="">{schedule.ClientInfo?.Location?.city}, {schedule.ClientInfo?.Location?.state}, {schedule.ClientInfo?.Location?.pincode}</span>
+                </div>
+               </div>
+
+            </section>
 
             {/* Task List Component */}
             <ErrorBoundary>
