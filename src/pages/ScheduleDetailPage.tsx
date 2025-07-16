@@ -21,13 +21,14 @@ import TaskListSkeleton from "../components/schedule/TaskListSkeleton";
 import LocationMapSkeleton from "../components/schedule/LocationMapSkeleton";
 import ErrorBoundary from "../components/common/ErrorBoundary";
 import type { LocationData } from "../types/scheduleOperations";
-import { useToast } from "../context/ToastContext";
+import { showToast } from "../utils/toast";
+import Title from "../components/common/Title";
 
 const ScheduleDetailPage: React.FC = () => {
   const { scheduleId } = useParams<{ scheduleId: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { showToast } = useToast();
+  // Using sonner toast directly
 
   // Local state
   const [isActionLoading, setIsActionLoading] = useState(false);
@@ -336,14 +337,14 @@ const ScheduleDetailPage: React.FC = () => {
   const formatAddress = (
     location:
       | {
-          house_number: string;
-          street: string;
-          city: string;
-          state: string;
-          pincode: string;
-          lat: number;
-          long: number;
-        }
+        house_number: string;
+        street: string;
+        city: string;
+        state: string;
+        pincode: string;
+        lat: number;
+        long: number;
+      }
       | null
       | undefined
   ) => {
@@ -424,7 +425,7 @@ const ScheduleDetailPage: React.FC = () => {
   return (
     <>
       {/* Header with reduced width to match content */}
-      <div className="flex justify-center w-full md:mt-4">
+      {/* <div className="flex justify-center w-full md:mt-4">
         <div className="w-full  flex items-center mb-4">
           <button
             onClick={() => navigate(-1)}
@@ -449,7 +450,26 @@ const ScheduleDetailPage: React.FC = () => {
             Schedule Details
           </span>
         </div>
-      </div>
+      </div> */}
+      <Title func={() => navigate(-1)}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-7 w-7"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+        <span className="font-roboto font-semibold  ">
+          Schedule Details
+        </span>
+      </Title>
 
       {/* Content area */}
       <div className="flex flex-col items-center w-full">

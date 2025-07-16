@@ -8,7 +8,7 @@ const ScheduleCard = lazy(() => import("./ScheduleCard"));
 
 interface LazyScheduleCardProps {
   id: string;
-  status: "upcoming" | "in_progress" | "completed" | "missed";
+  status: "upcoming" | "in_progress" | "completed" | "missed" | "Scheduled" | "In progress" | "Completed" | "Cancelled";
   patientName: string;
   serviceName: string;
   location: string;

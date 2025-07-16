@@ -1,9 +1,11 @@
 import React from 'react'
 
-export default function Title({children}:{children:React.ReactNode}) {
+export default function Title({children, func}:{children:React.ReactNode, func?:() => void}) {
 
   return (
-    <div className='mt-2 w-full p-1 hidden md:block'>
+    <div
+    onClick={func && func}
+    className={`mt-2 w-full text-2xl font-semibold p-1 hidden md:flex items-center gap-2 ${func && "cursor-pointer"}`}>
         {children}
     </div>
   )

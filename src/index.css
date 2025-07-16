@@ -88,3 +88,30 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+/* Sonner toast customization */
+:root {
+  --toaster-font: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --toaster-border-radius: 8px;
+}
+
+/* Optional: Custom styling for Sonner toasts */
+.sonner-toast {
+  @apply shadow-lg;
+}
+
+/* Match toast colors with your theme */
+.sonner-toast[data-type="success"] {
+  @apply bg-green-500 text-white;
+}
+
+.sonner-toast[data-type="error"] {
+  @apply bg-red-500 text-white;
+}
+
+.sonner-toast[data-type="warning"] {
+  @apply bg-yellow-500 text-white;
+}
+
+.sonner-toast[data-type="info"] {
+  @apply bg-blue-500 text-white;
+}

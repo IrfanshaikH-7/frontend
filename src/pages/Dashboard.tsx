@@ -97,7 +97,7 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Title>
-        <span className="text-lg font-semibold">Dashboard</span>
+        <span >Dashboard</span>
       </Title>
       <MobileHeader>
         <span className="text-lg font-semibold capitalize">

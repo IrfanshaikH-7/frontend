@@ -113,7 +113,7 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({
     variant === "card"
       ? "p-5 rounded-2xl shadow-sm bg-white"
       : variant === "centered"
-      ? "rounded-2xl bg-tertiary"
+      ? "rounded-2xl bg-[#2DA6FF0A]"
       : "rounded-2xl bg-white";
 
   // Render the component based on whether it should be a link or not
@@ -161,7 +161,7 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({
           </div>
 
           {/* Date and Time Section */}
-          <div className="flex items-center justify-between w-full bg-tertiary rounded-xl text-gray-700 py-3 px-4">
+          <div className="flex items-center justify-between w-full bg-secondary rounded-xl text-gray-700 py-3 px-4">
             <div className="flex items-center justify-end w-full md:text-sm text-[12px]">
               <img src={calendar} alt="calendar" className="w-5 h-5 mr-2" />
               <span className="font-roboto text-sm">{date}</span>
