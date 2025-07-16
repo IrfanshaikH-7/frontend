@@ -1,5 +1,6 @@
 // src/components/schedule/ActionButtons.tsx
 import React from "react";
+import { useIsFetching, useIsMutating } from "@tanstack/react-query";
 
 interface ActionButtonsProps {
   visitStatus: "upcoming" | "in_progress" | "completed" | "missed";
@@ -14,8 +15,15 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   onCheckin,
   onCheckout,
   onCancelCheckin,
-  isLoading = false,
+  isLoading: propIsLoading = false,
 }) => {
+  // Get loading states from React Query
+  const isFetching = useIsFetching();
+  const isMutating = useIsMutating();
+
+  // Combine prop loading state with React Query loading states
+  const isLoading = propIsLoading || isFetching > 0 || isMutating > 0;
+
   if (visitStatus === "completed" || visitStatus === "missed") {
     return null; // No actions for completed or missed visits
   }
@@ -26,7 +34,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         <button
           onClick={onCheckin}
           disabled={isLoading}
-          className="w-full bg-activity text-white py-4 rounded-button font-roboto font-normal text-button-text leading-button-text hover:bg-teal-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="w-full bg-activity text-white py-4 rounded-button font-roboto !font-medium text-button-text leading-button-text bg-teal-800 hover:bg-teal-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           {isLoading ? "Processing..." : "Clock-In Now"}
         </button>
@@ -37,14 +45,14 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           <button
             onClick={onCancelCheckin}
             disabled={isLoading}
-            className="sm:flex-1 border border-activity text-activity py-4 rounded-button font-roboto font-normal text-button-text leading-button-text hover:bg-teal-50 transition-colors disabled:border-gray-400 disabled:text-gray-400 disabled:cursor-not-allowed"
+            className="sm:flex-1 border border-[red] hover:border-[red] !text-[#D32F2F] !font-medium py-4 rounded-button font-roboto font-normal  leading-button-text transition-colors disabled:border-gray-400 disabled:text-gray-400 disabled:cursor-not-allowed"
           >
             {isLoading ? "Processing..." : "Cancel Check-In"}
           </button>
           <button
             onClick={onCheckout}
             disabled={isLoading}
-            className="sm:flex-1 bg-activity text-white py-4 rounded-button font-roboto font-normal text-button-text leading-button-text hover:bg-teal-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="sm:flex-1 bg-activity text-white py-4 rounded-button !font-medium  text-button-text leading-button-text bg-teal-800 hover:bg-teal-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
             {isLoading ? "Processing..." : "Clock-Out"}
           </button>
