@@ -53,6 +53,13 @@ const Dashboard: React.FC = () => {
     }
   }, [userData]);
 
+  useEffect(() => {
+    const schedule = schedules?.find((s) => s.VisitStatus === 'in_progress');
+    if (schedule) {
+      setActiveSchedule(schedule);
+    }
+  }, [schedules]);
+
   // Calculate dashboard stats from actual schedule data
   const dashboardStats = React.useMemo(() => {
     if (!schedules)
@@ -93,6 +100,14 @@ const Dashboard: React.FC = () => {
     ];
   }, [schedules]);
 
+  useEffect(() => {
+    const schedule = schedules?.find((s) => s.VisitStatus === 'in_progress');
+    if (schedule) {
+      setActiveSchedule(schedule);
+    }
+  }, [schedules]);
+
+
   if (isLoading || isUserLoading) {
     return <DashboardSkeleton />;
   }
@@ -103,15 +118,7 @@ const Dashboard: React.FC = () => {
     return <div>An error occurred: {errorMessage}</div>;
   }
 
-  useEffect(() => {
-
-    const schedule = schedules?.find((s) => s.VisitStatus === 'in_progress');
-    if (schedule) {
-      setActiveSchedule(schedule);
-    }
-  }, [schedules]);
-  console.log(activeSchedule, 'saonvi')
-
+ 
   return (
     <>
       <Title>
