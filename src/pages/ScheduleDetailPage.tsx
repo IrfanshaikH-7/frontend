@@ -17,14 +17,17 @@ import ServiceNotes from "../components/schedule/ServiceNotes";
 import LazyScheduleCard from "../components/schedule/LazyScheduleCard";
 import ScheduleCompletionModal from "../components/schedule/ScheduleCompletionModal";
 import ScheduleDetailSkeleton from "../components/schedule/ScheduleDetailSkeleton";
-import TaskListSkeleton from "../components/schedule/TaskListSkeleton";
-import LocationMapSkeleton from "../components/schedule/LocationMapSkeleton";
 import ErrorBoundary from "../components/common/ErrorBoundary";
 import type { LocationData } from "../types/scheduleOperations";
 import { showToast } from "../utils/toast";
 import Title from "../components/common/Title";
+import DurationTimer from "../components/common/DurationTimer";
+import { useCurrSchedule } from "../context/currSchedule";
+import { formatAddress } from "../utils/formatadd";
+import { formatTimeRange } from "../utils/formatTime";
 
 const ScheduleDetailPage: React.FC = () => {
+  const { setCurrScheduleId } = useCurrSchedule();
   const { scheduleId } = useParams<{ scheduleId: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -203,6 +206,9 @@ const ScheduleDetailPage: React.FC = () => {
       try {
         await checkInMutation.mutateAsync({ scheduleId, location });
         showToast("Successfully checked in!", "success");
+        // Revalidate the schedules query
+        setCurrScheduleId(scheduleId)
+        queryClient.invalidateQueries({ queryKey: ["schedules", "ecd75215-960b-484b-a184-736f8fca4e59"] });
       } catch (error) {
         showToast(`Check-in failed: ${(error as Error).message}`, "error");
         setIsActionLoading(false);
@@ -334,32 +340,7 @@ const ScheduleDetailPage: React.FC = () => {
   }
 
   // Format address from client location
-  const formatAddress = (
-    location:
-      | {
-        house_number: string;
-        street: string;
-        city: string;
-        state: string;
-        pincode: string;
-        lat: number;
-        long: number;
-      }
-      | null
-      | undefined
-  ) => {
-    if (!location) return "";
-
-    const parts = [
-      location.house_number,
-      location.street,
-      location.city,
-      location.state,
-      location.pincode,
-    ].filter(Boolean);
-
-    return parts.join(", ");
-  };
+ 
 
   // Convert API status to our internal format
   const visitStatus = schedule.VisitStatus.toLowerCase() as
@@ -387,9 +368,7 @@ const ScheduleDetailPage: React.FC = () => {
     });
   };
 
-  const formatTimeRange = (from: string, to: string) => {
-    return `${formatTime(from)} - ${formatTime(to)}`;
-  };
+ 
 
   // Calculate duration
   const calculateDuration = (from: string, to: string) => {
@@ -422,6 +401,7 @@ const ScheduleDetailPage: React.FC = () => {
     navigate("/");
     
   };
+  console.log(schedule)
 
   return (
     <>
@@ -468,7 +448,9 @@ const ScheduleDetailPage: React.FC = () => {
           />
         </svg>
         <span className="font-roboto font-semibold  ">
-          Schedule Details
+          {
+        visitStatus === 'in_progress' ? "Clock-out": "Schedule Details"
+        }
         </span>
       </Title>
 
@@ -477,6 +459,11 @@ const ScheduleDetailPage: React.FC = () => {
         <div className="w-full ">
           <div className="rounded-2xl p-4 sm:px-0">
             <ErrorBoundary>
+            {schedule?.CheckinTime && <DurationTimer
+            className="font-semibold text-[#1D1D1BDE] text-[32px] mb-5 text-center"
+            checkinTime={schedule.CheckinTime} />}
+
+ 
               <LazyScheduleCard
                 id={schedule.ID}
                 status={visitStatus}

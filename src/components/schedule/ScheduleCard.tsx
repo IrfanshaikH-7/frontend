@@ -133,23 +133,28 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({
 
   // Helper function to render the card content
   function renderCardContent() {
+
+    console.log('whats is status',status)
     // Centered variant content
     if (variant === "centered") {
       return (
+       <>
+       
         <div className={`flex flex-col items-center text-center py-2 px-2`}>
           {/* Service Name */}
-          <h2 className="font-roboto font-semibold text-activity leading-activity text-activity-bg mb-4">
+        
+          <h2 className="font-roboto text-[24px] font-semibold text-tertiary leading-activity text-activity-bg mb-2">
             {serviceName}
           </h2>
 
           {/* Profile Picture and Name */}
-          <div className="flex items-center mb-2 gap-[8px]">
+          <div className="flex items-center  gap-[8px]">
             <img
               src={
                 profilePicture || clientInfo?.ProfilePicture || "invalid.jpg"
               }
               alt="Profile"
-              className="w-16 h-16 rounded-full mb-2 object-cover"
+              className="w-14 h-14 rounded-full mb-2 object-cover"
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = "https://picsum.photos/200/300";
@@ -161,7 +166,9 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({
           </div>
 
           {/* Date and Time Section */}
-          <div className="flex items-center justify-between w-full bg-secondary rounded-xl text-gray-700 py-3 px-4">
+          {
+            status !== 'in_progress' &&
+            <div className="flex items-center mt-2 justify-between w-full bg-secondary rounded-xl text-gray-700 py-3 px-4">
             <div className="flex items-center justify-end w-full md:text-sm text-[12px]">
               <img src={calendar} alt="calendar" className="w-5 h-5 mr-2" />
               <span className="font-roboto text-sm">{date}</span>
@@ -175,7 +182,10 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({
               </span>
             </div>
           </div>
+          }
+         
         </div>
+       </>
       );
     }
 
